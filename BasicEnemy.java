@@ -2,15 +2,17 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.util.Random;
+
 
 public class BasicEnemy extends GameObject{
 	private Handler handler;
+	private Random r = new Random();
 	public BasicEnemy(int x, int y, ID id, Handler handler) {
 		super(x,y,id);
 		this.handler = handler;
-		velX = 5;
+		velX = Math.negateExact(r.nextInt(5)+3);
 		velY = 0;
 	}
 	public void render(Graphics g) {
@@ -21,22 +23,43 @@ public class BasicEnemy extends GameObject{
 		g.drawLine((int)x+20, (int)y, (int)x+38, (int)y-16);
 		g.drawLine((int)x+48, (int)y, (int)x+66, (int)y-16);
 		g.drawLine((int)x+66, (int)y-16, (int)x+38, (int)y-16);
+		g.setColor(Color.GREEN);
+		g.drawLine((int)x+15, (int)y+14, (int)x+33, (int)y+32);
+		g.drawLine((int)x+43, (int)y+14, (int)x+61, (int)y+32);
+		g.drawLine((int)x+61, (int)y+32, (int)x+33, (int)y+32);
 		
+	}
+	public void collision() {
+		for (int i = 0; i< handler.object.size();i++) {
+			GameObject tempObject = handler.object.get(i);
+			if (tempObject.getId() == ID.PlayerBullet) {
+				for(Rectangle r: getAllBounds()) {
+					if(r.getBounds().intersects(tempObject.getBounds())) {
+						handler.removeObject(this);
+						handler.removeObject(tempObject);
+					}
+				}
+			}
+		}
 	}
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
 		x += velX;
 		y += velY;
-		if (y<=0 || y>=Game.HEIGHT-32) {
-			velY *= -1;
+		if (x<=-20 ) {
+			handler.removeObject(this);
 		}
-		if (x<=0 || x>=Game.WIDTH-10) {
-			velX*=-1;
-		}
-//		handler.addObject(new Trail((int)x,(int)y,ID.Trail,Color.red,16,16,(float) 0.04,handler));
+		collision();
 	}
 	public Rectangle getBounds() {
-		return new Rectangle((int)x,(int)y,16,16);
+		return new Rectangle((int)x,(int)y,48,16);
+	}
+	@Override
+	public Rectangle[] getAllBounds() {
+		Rectangle[] bounds = new Rectangle[3];
+		bounds[0] = new Rectangle((int)x,(int)y,48,16);
+		bounds[1] = new Rectangle((int)x+20,(int)y-16,46,16);
+		bounds[2] = new Rectangle((int)x+20,(int)y+16,46,16);
+		return bounds;
 	}
 }

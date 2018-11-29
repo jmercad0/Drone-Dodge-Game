@@ -13,6 +13,7 @@ public abstract class GameObject {
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	public abstract Rectangle getBounds();
+	public abstract Rectangle[] getAllBounds();
 	
 	public void setX(float x) {
 		this.x = x;

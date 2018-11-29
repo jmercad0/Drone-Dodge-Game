@@ -8,17 +8,15 @@ import java.util.Random;
 
 
 
-public class GameOver extends MouseAdapter {
+public class Victory extends MouseAdapter {
 	private Game game;
 	private Handler handler;
 	private Random r = new Random();
-	public GameOver(Game game, Handler handler) {
+	public Victory(Game game, Handler handler) {
 		this.game = game;
 		this.handler = handler;
 	}
-	public void mouseReleased(MouseEvent e) {
-		
-	}
+	
 	public void mousePressed(MouseEvent e) {
 		int mx = e.getX();
 		int my = e.getY();
@@ -40,18 +38,6 @@ public class GameOver extends MouseAdapter {
 			return false;
 		}
 	}
-	public void tick() {
-		
-	}
-	public static void render(Graphics g) {
-		Font fnt = new Font("arial",50,50);
-		Font fnt2 = new Font("arial",25,25);
-		g.setFont(fnt);
-		g.drawString("Game Over :(", 100, 50);
-		g.drawRect(180, 260, 250, 100);
-		g.setFont(fnt2);
-		g.drawString("Return to Menu", 250, 320);
-		
-		
-	}
+	public void mouseReleased(MouseEvent e) {	}
+	public void tick() {	}
 }

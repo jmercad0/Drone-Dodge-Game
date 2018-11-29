@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 public class Handler {
 	LinkedList<GameObject> object = new LinkedList<>();
-	boolean boss = false;
 	public void tick() {
 		for (int i = 0; i<object.size();i++) {
 			GameObject tempObject = object.get(i);
@@ -28,16 +27,8 @@ public class Handler {
 	public void removeObject(GameObject object) {
 		this.object.remove(object);
 	}
-	public void clearEnemies() {
-		for (int i = 0; i<object.size();i++) {
-			GameObject tempObject = object.get(i);
-			if (tempObject.getId() == ID.Player) {
-				object.clear();
-				if(Game.gameState != Game.STATE.GameOver) {
-				addObject(new Player((int)tempObject.getX(), (int)tempObject.getY(), ID.Player,this));
-				}
-			}
-		}
-	}
 	
+	public void clearEnemies() {
+		object.clear();
+	}
 }

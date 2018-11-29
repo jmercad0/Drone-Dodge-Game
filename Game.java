@@ -3,17 +3,21 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class Game extends Canvas implements Runnable, ActionListener{
 	private static Timer clock;
 	public static String time;
-	private int timeCount;
-	private static final long serialVersionUID = -1898107373679889251L;
+	public static int timeCount;
 	public static final int WIDTH = 640, HEIGHT = WIDTH/ 11*9;
 	private Thread thread;
 	private boolean running = false;
@@ -22,13 +26,13 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	private HUD hud;
 	private Spawn spawner;
 	private Menu menu;
+	public static STATE gameState = STATE.Menu;
 	public enum STATE{
 		Menu,
-		Help,
 		Game,
+		Victory,
 		GameOver;
 	}
-	public static STATE gameState = STATE.Menu;
 	public Game() {
 		handler = new Handler();
 		hud = new HUD();
@@ -39,20 +43,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		
 		spawner = new Spawn(handler,hud);
 		
-		r = new Random();
-		if (gameState == STATE.Game) {
-			
-//			handler.addObject(new Player(WIDTH/2+32,HEIGHT/2+32,ID.Player,handler));
-//			handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH),r.nextInt(Game.HEIGHT),ID.BasicEnemy,handler));
-		}
-		else {
-			for (int i = 0; i<10;i++) {
-//				handler.addObject(new MenuParticle(r.nextInt(WIDTH),r.nextInt(HEIGHT), ID.MenuParticle,this.handler));
-			}
-		}
-		
-		
-		
+		r = new Random();	
 	}
 	public synchronized void start() {
 		thread = new Thread(this);
@@ -93,14 +84,14 @@ public class Game extends Canvas implements Runnable, ActionListener{
 			hud.score(hud.getScore()+1);
 			timeCount=0;
 			time="0:00";
-		}
-		
-	}
+			if(hud.getScore()==3) {
+				gameState = STATE.Victory;
+				clock.stop();
+			}
+		}	
+	 }
 	 public void run()
 	     {
-		 //timer, stop watch
-		 //put timer at beginning of while loop 
-		 //tick & tock delta
 		 	 this.requestFocus();
 	         long lastTime = System.nanoTime();
 	         double amountOfTicks = 60.0;
@@ -130,7 +121,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	             {
 	               timer += 1000;
 	               System.out.println(timer);
-	               //System.out.println("FPS: "+ frames);
+	               System.out.println("FPS: "+ frames);
 	               frames = 0;
 	             }
 	         }
@@ -143,8 +134,8 @@ public class Game extends Canvas implements Runnable, ActionListener{
 			clock.start();
 			hud.tick();
 			spawner.tick();
-			if (HUD.HEALTH <=0) {
-				HUD.HEALTH = 100;
+			if (HUD.lives <=0) {
+				HUD.lives = 3;
 				gameState = STATE.GameOver;
 				handler.clearEnemies();
 				timeCount = 0;
@@ -152,8 +143,12 @@ public class Game extends Canvas implements Runnable, ActionListener{
 				clock.stop();
 			}
 		}
-		else if (gameState == STATE.Menu|| gameState == STATE.GameOver) {
+		else if (gameState == STATE.Menu|| gameState == STATE.GameOver || gameState == STATE.Victory) {
 			menu.tick();
+			if (gameState == STATE.GameOver || gameState == STATE.Victory) {
+				handler.clearEnemies();
+			}
+			
 		}
 		
 		
@@ -166,22 +161,16 @@ public class Game extends Canvas implements Runnable, ActionListener{
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
-		g.setColor(Color.BLACK);
+		g.setColor(Color.cyan);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		handler.render(g);
 		if (gameState == STATE.Game) {
 			hud.render(g);
 		}
-		else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.GameOver) {
+		else if (gameState == STATE.Menu || gameState == STATE.GameOver || gameState == STATE.Victory) {
 			menu.render(g);	
 		}
-		else if (gameState == STATE.GameOver) {
-			GameOver.render(g);
-		}
-		
-		
-		
+		handler.render(g);
 		g.dispose();
 		bs.show();
 	}

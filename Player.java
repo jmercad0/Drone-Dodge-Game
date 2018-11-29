@@ -13,51 +13,45 @@ public class Player extends GameObject{
 		super(x,y,id);
 		this.handler = handler;
 	}
-
-
 	@Override
 	public void tick() {
-		x+=velX;
+		x+=velX+1;
 		y+=velY;
 		
-		x = Game.clamp((int)x,0,Game.WIDTH - 38);
-		y = Game.clamp((int)y, 0, Game.HEIGHT - 60);
+		x = Game.clamp((int)x,10,Game.WIDTH - 78);
+		y = Game.clamp((int)y, 18, Game.HEIGHT - 88);
 		
 		collision();
 	}
-	/*
-	 * Still need to re-adjust to fit entire shape of drone
-	 */
 	public void collision() {
 		for (int i = 0; i< handler.object.size();i++) {
 			GameObject tempObject = handler.object.get(i);
 			if (tempObject.getId() == ID.BasicEnemy) {
-				if(getBounds().intersects(tempObject.getBounds())) {
-					HUD.HEALTH -= 2;
+				for(Rectangle r: tempObject.getAllBounds()) {
+					if(getBounds().intersects(r)) {
+						handler.removeObject(tempObject);
+						HUD.lives--;
+					}
 				}
 			}
 		}
 	}
-
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.magenta);
 		
-		g.fillRect((int)x, (int)y, 50, 25);
-		g.fillRect((int)x-10, (int)y+5, 10, 32);
-		g.fillRect((int)x+50, (int)y+5, 10, 32);
-		g.drawLine((int)x+25, (int)y, (int)x+25, (int)y-15);
-		g.fillRect((int)x, (int)y-15, 50, 3);
+		g.fillRect((int)x, (int)y, 60, 45);
+		g.fillRect((int)x-10, (int)y+5, 10, 52);
+		g.fillRect((int)x+60, (int)y+5, 10, 52);
+		g.drawLine((int)x+30, (int)y, (int)x+30, (int)y-15);
+		g.fillRect((int)x-10, (int)y-15, 80, 3);
 	}
-	/*
-	 * Still needs to model for entire shape of drone
-	 */
+	
 	public Rectangle getBounds() {
-		return new Rectangle((int)x,(int)y,50,25);
+		return new Rectangle((int)x-10,(int)y-15,80,72);
 	}
-	
-	
-
-
-	
+	@Override
+	public Rectangle[] getAllBounds() {
+		return null;
+	}
 }
