@@ -40,16 +40,13 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		this.addKeyListener(new KeyInput(handler));
 		this.addMouseListener(menu);
 		new Window(WIDTH, HEIGHT, "Drone Plane Game", this);
-		
 		spawner = new Spawn(handler,hud);
-		
 		r = new Random();	
 	}
 	public synchronized void start() {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
-	
 	}
 	public synchronized void stop() {
 		try{
@@ -63,7 +60,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	}
 	public void setClock() {
 		clock = new Timer(1000, this);
-        clock.setInitialDelay(1);
+        	clock.setInitialDelay(1);
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -92,14 +89,13 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	 }
 	 public void run()
 	     {
-		 	 this.requestFocus();
+		 this.requestFocus();
 	         long lastTime = System.nanoTime();
 	         double amountOfTicks = 60.0;
 	         double ns = 1000000000 / amountOfTicks;
 	         double delta = 0;
 	         long timer = System.currentTimeMillis();
 	         int frames = 0;
-	        
 	         setClock();
 	         time = "0:00";
 	         timeCount = 0;
@@ -125,7 +121,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	               frames = 0;
 	             }
 	         }
-	                 stop();
+	          stop();
 	     }
 	
 	private void tick() {
@@ -175,15 +171,9 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		bs.show();
 	}
 	public static float clamp(float var, float min, float max) {
-		if (var >= max) {
-			return var = max;
-		}
-		else if (var <= min) {
-			return var = min;
-		}
-		else {
-			return var;
-		}
+		if (var >= max) { return var = max;}
+		else if (var <= min) { return var = min;}
+		else {return var;}
 	}
 	
 	public static void main(String args[]) {
