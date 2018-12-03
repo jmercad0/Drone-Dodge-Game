@@ -23,12 +23,13 @@ public class Player extends GameObject{
 	public void collision() {
 		for (int i = 0; i< handler.object.size();i++) {
 			GameObject tempObject = handler.object.get(i);
-			if (tempObject.getId() == ID.BasicEnemy) {
+			if (tempObject.getId() == ID.Enemy) {
 				//for all bounds of wings & body in enemyPlane, check if hits player
 				for(Rectangle r: tempObject.getAllBounds()) {
-					if(getBounds().intersects(r))
+					if(getBounds().intersects(r)) {
 						handler.removeObject(tempObject);
 						HUD.lives--;
+					}
 				}
 			}
 		}

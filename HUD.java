@@ -51,4 +51,7 @@ public class HUD {
 	public int getScore() {
 		return score;
 	}
+	public static void setLives() {
+		lives--;
+	}
 }
