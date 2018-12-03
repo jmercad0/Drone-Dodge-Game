@@ -16,9 +16,9 @@ public class Spawn {
 		hud.lives = 3;
 	}
 	public void tick() {
-		if (timer!=Game.timeCount) {
-			handler.addObject(new BasicEnemy(Game.WIDTH - 38,r.nextInt(Game.HEIGHT-50), ID.BasicEnemy, handler));
+		//spawns new enemyPlane per second w/ random Y & velocity
+		if (timer!=Game.timeCount)
+			handler.addObject(new EnemyPlane(Game.WIDTH-38,r.nextInt(Game.HEIGHT-50), ID.BasicEnemy, handler));
 			timer = Game.timeCount;
-		}
 	}
 }

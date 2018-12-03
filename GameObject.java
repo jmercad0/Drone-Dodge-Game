@@ -2,23 +2,25 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public abstract class GameObject {
-	protected float x, y;
-	protected ID id;
-	protected float velX, velY;
+	float x, y;
+	ID id;
+	float velX, velY;
 	public GameObject(float x, float y, ID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
+	//updates position & detects collision, game logic
 	public abstract void tick();
+	//draws gameObject in scene
 	public abstract void render(Graphics g);
+	//gets hit detection boxes
 	public abstract Rectangle getBounds();
 	public abstract Rectangle[] getAllBounds();
-	
+	//getters & setters for position, velocity & ID
 	public void setX(float x) {
 		this.x = x;
 	}
-	
 	public void setY(float y) {
 		this.y = y;
 	}
@@ -27,9 +29,6 @@ public abstract class GameObject {
 	}
 	public float getY() {
 		return y;
-	}
-	public void setId(ID id) {
-		this.id = id;
 	}
 	public ID getId() {
 		return id;
@@ -40,11 +39,4 @@ public abstract class GameObject {
 	public void setVelY(float y) {
 		this.velY = y;
 	}
-	public float getVelX() {
-		return velX;
-	}
-	public float getVelY() {
-		return velY;
-	}
-
 }
