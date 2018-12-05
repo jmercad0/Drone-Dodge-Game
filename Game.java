@@ -55,9 +55,9 @@ public class Game extends Canvas implements Runnable, ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		timeCount++;
 		if (timeCount<10)  time = "0:0"+timeCount;	
-//		else if(timeCount>=10&&timeCount<60)  time = "0:"+timeCount; 
-//		else if(timeCount>=60&&timeCount<70)  time = "1:0"+(timeCount%10);
-//		else if(timeCount>=70&&timeCount<=90) time = "1:"+(timeCount-60);
+		else if(timeCount>=10&&timeCount<60)  time = "0:"+timeCount; 
+		else if(timeCount>=60&&timeCount<70)  time = "1:0"+(timeCount%10);
+		else if(timeCount>=70&&timeCount<=90) time = "1:"+(timeCount-60);
 		else {
 			hud.score(hud.getScore()+1);
 			timeCount=0;
