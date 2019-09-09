@@ -27,6 +27,10 @@ public class Menu extends MouseAdapter {
 			if (mouseOver(mx,my,225,200,200,75)) {
 				System.exit(0);
 			}
+			if (mouseOver(mx,my,225,300,200,75)) {
+				game.gameState = Game.STATE.Help;
+				handler.addObject(new Player(Game.WIDTH/10+32,Game.HEIGHT/2+32,ID.Player,handler));
+			}
 		}
 		if (game.gameState == Game.STATE.GameOver ||game.gameState == Game.STATE.Victory) {
 			//play button
@@ -47,6 +51,16 @@ public class Menu extends MouseAdapter {
 				System.exit(0);
 			}
 		}
+		if (game.gameState == Game.STATE.Help) {
+			if (mouseOver(mx,my,210, 370, 200, 64)) {
+				hud.score(0);
+				Spawn.resetScoreKeep();
+				game.gameState = Game.STATE.Game;
+				handler.clearEnemies();
+				handler.addObject(new Player(Game.WIDTH/10+32,Game.HEIGHT/2+32,ID.Player,handler));
+			}
+		}
+		
 	}
 	//used for menu system logic, determines update of gameState depending on box pressed
 	private boolean mouseOver(int mx, int my,int x, int y, int width, int height) {
@@ -72,6 +86,8 @@ public class Menu extends MouseAdapter {
 			g.drawString("Play",270,155);
 			g.drawRect(225,200,200,75);
 			g.drawString("Quit",270,255);
+			g.drawRect(225,300,200,75);
+			g.drawString("Help",270,355);
 		}
 		//gameOver screen
 		else if (game.gameState == Game.STATE.GameOver) {
@@ -104,6 +120,20 @@ public class Menu extends MouseAdapter {
 			g.drawString("Play Again", 255, 210);
 			g.drawString("Return to Menu", 225, 310);
 			g.drawString("Quit", 285, 410);
+		}
+		else if(game.gameState == Game.gameState.Help) {
+			Font fnt = new Font("arial",35,35);
+			Font fnt2 = new Font("arial", 25,25);
+			g.setColor(Color.yellow);
+			g.setFont(fnt);
+			g.drawString("Survive and beat 3000 points to win!", 35, 70);
+			g.setFont(fnt2);
+			g.drawString("Use arrow keys to move & space-bar to shoot", 55, 120);
+			g.drawString("Every enemy shot, you receive 50 points", 75, 170);
+			g.drawString("Every 60 seconds, you receive 500 points bonus!", 50, 220);
+			g.drawRect(210, 370, 200, 64);	
+			g.setFont(fnt);
+			g.drawString("Play", 280, 410);
 		}
 	}
 	public void mouseReleased(MouseEvent e) {}

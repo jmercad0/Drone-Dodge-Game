@@ -22,6 +22,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		Menu,
 		Game,
 		Victory,
+		Help,
 		GameOver;
 	}
 	//instantiates components of game
@@ -56,13 +57,11 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		timeCount++;
 		if (timeCount<10)  time = "0:0"+timeCount;	
 		else if(timeCount>=10&&timeCount<60)  time = "0:"+timeCount; 
-		else if(timeCount>=60&&timeCount<70)  time = "1:0"+(timeCount%10);
-		else if(timeCount>=70&&timeCount<=90) time = "1:"+(timeCount-60);
 		else {
-			hud.score(hud.getScore()+1);
+			hud.score(hud.getScore()+500);
 			timeCount=0;
 			time="0:00";
-			if(hud.getScore()==3)
+			if(hud.getScore()>=3000)
 				gameState = STATE.Victory;
 				clock.stop();
 		}	
@@ -109,7 +108,7 @@ public class Game extends Canvas implements Runnable, ActionListener{
 		if (gameState == STATE.Game)
 			hud.render(g);
 		//renders menu components
-		else if (gameState == STATE.Menu || gameState == STATE.GameOver || gameState == STATE.Victory) 
+		else if (gameState == STATE.Menu || gameState == STATE.GameOver || gameState == STATE.Victory || gameState == STATE.Help) 
 			menu.render(g);	
 		handler.render(g);
 		//releases graphics resources at end of each use

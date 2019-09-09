@@ -5,10 +5,12 @@ import java.util.Random;
 
 public class EnemyPlane extends GameObject{
 	private Handler handler;
+	private HUD hud;
 	private Random r = new Random();
-	public EnemyPlane(int x, int y, ID id, Handler handler) {
+	public EnemyPlane(int x, int y, ID id, Handler handler, HUD hud) {
 		super(x,y,id);
 		this.handler = handler;
+		this.hud = hud;
 		velX = Math.negateExact(r.nextInt(5)+3);
 		velY = 0;
 	}
@@ -35,6 +37,7 @@ public class EnemyPlane extends GameObject{
 					if(r.getBounds().intersects(tempObject.getBounds())) {
 						handler.removeObject(this);
 						handler.removeObject(tempObject);
+						hud.score(hud.getScore()+50);
 					}
 				}
 			}
