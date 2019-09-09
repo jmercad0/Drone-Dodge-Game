@@ -16,7 +16,7 @@ JRE 8.0 or above
 
 ![Drone-Dodge gameplay screenshot](https://i.imgur.com/FstXQve.png)
 
-![Drone-Dodge help screenshot](https://i.imgur.com/c44DaNk.png)
+![Drone-Dodge help screenshot](https://i.imgur.com/bFCnwUt.png)
 
 ## Acknowledgments
 
